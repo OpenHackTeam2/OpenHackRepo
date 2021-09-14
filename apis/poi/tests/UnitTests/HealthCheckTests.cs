@@ -9,6 +9,7 @@ namespace tests
         [Fact]
         public void HealthCheckTestModel()
         {
+            //Comment
             Assert.Equal("POI Service Healthcheck", new Healthcheck().Message);
             Assert.Equal("Healthy", new Healthcheck().Status);
 
