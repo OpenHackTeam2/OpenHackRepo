@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using poi.Utility;
 namespace poi
 {
-    #comment
+    //comment
     public class Program
     {
         public static void Main(string[] args)
