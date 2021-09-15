@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using poi.Models;
 using poi.Data;
 
-//comment
 namespace poi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/poi")]
+    [Route("api/[controller]")]
     public class POIController : ControllerBase
     {
         private readonly POIContext _context;
@@ -17,6 +16,20 @@ namespace poi.Controllers
         public POIController(POIContext context)
         {
             _context = context;
+
+            if (_context.POIs.Count() == 0)
+            {
+               _context.POIs.Add(new POI
+               {
+                   TripId = Guid.NewGuid().ToString(),
+                   Latitude = 0,
+                   Longitude = 0,
+                   PoiType = POIType.HardAcceleration,
+                   Timestamp = DateTime.Now,
+                   Deleted = false
+               });
+               _context.SaveChanges();
+            }
         }
 
         [HttpGet(Name = "GetAllPOIs")]

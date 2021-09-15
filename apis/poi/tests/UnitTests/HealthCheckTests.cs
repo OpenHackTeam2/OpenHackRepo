@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using poi.Models;
 
-namespace UnitTests
+namespace tests
 {
     public class HealthCheckUnitTests
     {
