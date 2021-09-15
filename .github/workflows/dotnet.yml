@@ -12,7 +12,7 @@ on:
       - .github/workflows/dotnet.yml
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -34,6 +34,36 @@ jobs:
     - name: Test
       run: dotnet test apis/poi/tests/IntegrationTests/IntegrationTests.csproj --verbosity normal
 
+    - uses: nashmaniac/create-issue-action@v1.1
+      if: ${{ failure() }} # only run when this job is failed.
+      name: Create Issue Action
+      with:
+        title: Build Failed
+        token: ${{secrets.GITHUB_TOKEN}}
+        assignees: ${{github.actor}}
+        labels: Build failed, help needed
+        body: Workflow failed for commit ${{github.sha}}
+
+  docker-build-and-deploy:
+    env:
+      registery: openhackw1l12y49acr.azurecr.io
+      app: openhackw1l12y49poi
+    
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+            
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.registery }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - run: |
+        docker build . -t ${{ env.registery }}/${{ env.app }}:${{ github.sha }}
+        docker push ${{ env.registery }}/${{ env.app }}:${{ github.sha }} 
+  
     - uses: nashmaniac/create-issue-action@v1.1
       if: ${{ failure() }} # only run when this job is failed.
       name: Create Issue Action
