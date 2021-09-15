@@ -33,3 +33,13 @@ jobs:
       
     - name: Test
       run: dotnet test apis/poi/tests/IntegrationTests/IntegrationTests.csproj --verbosity normal
+
+    - uses: nashmaniac/create-issue-action@v1.1
+      if: ${{ failure() }} # only run when this job is failed.
+      name: Create Issue Action
+      with:
+        title: Build Failed
+        token: ${{secrets.GITHUB_TOKEN}}
+        assignees: ${{github.actor}}
+        labels: Build failed, help needed
+        body: Workflow failed for commit ${{github.sha}}
