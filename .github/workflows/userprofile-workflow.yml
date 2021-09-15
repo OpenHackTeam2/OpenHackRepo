@@ -8,7 +8,7 @@ on:
       - 'apis/useprofile/**'
       - '.github/workflows/useprofile-workflow.yml'
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'apis/useprofile/**'
       - '.github/workflows/useprofile-workflow.yml'
