@@ -26,10 +26,10 @@ jobs:
       run: dotnet restore apis/poi/web/poi.csproj
    
     - name: Test
-      run: dotnet test apis/poi/tests/UnitTests/UnitTests.csproj --no-build --verbosity normal
+      run: dotnet test apis/poi/tests/UnitTests/UnitTests.csproj --verbosity normal
       
     - name: Build
       run: dotnet build apis/poi/web/poi.csproj --no-restore
       
     - name: Test
-      run: dotnet test apis/poi/tests/IntegrationTests/IntegrationTests.csproj --no-build --verbosity nor
+      run: dotnet test apis/poi/tests/IntegrationTests/IntegrationTests.csproj --verbosity normal
