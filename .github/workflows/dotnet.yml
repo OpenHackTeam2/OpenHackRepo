@@ -2,9 +2,7 @@ name: .NET
 
 on:
   push:
-    branches: 
-      - CANARY
-      - master
+    branches: [ master ]
     paths:
       - 'apis/poi/**'
       - '.github/workflows/dotnet.yml'
