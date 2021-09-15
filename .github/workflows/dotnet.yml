@@ -47,7 +47,7 @@ jobs:
     env:
       registery: openhackw1l12y49acr.azurecr.io
       app: openhackw1l12y49poi
-      dockerfile: apis/poi/web/DockerFile
+      dockerfile: apis/poi/web
     
     steps:
     # checkout the repo
