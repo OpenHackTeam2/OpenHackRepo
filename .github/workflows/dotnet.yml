@@ -24,8 +24,12 @@ jobs:
       #  dotnet-version: 5.0.x
     - name: Restore dependencies 
       run: dotnet restore apis/poi/web/poi.csproj
-      
-    - name: Build
-      run: dotnet build apis/poi/web/poi.csproj --no-restore 
+   
     - name: Test
       run: dotnet test apis/poi/tests/UnitTests/UnitTests.csproj --no-build --verbosity normal
+      
+    - name: Build
+      run: dotnet build apis/poi/web/poi.csproj --no-restore
+      
+    - name: Test
+      run: dotnet test apis/poi/tests/IntegrationTests/IntegrationTests.csproj --no-build --verbosity nor
