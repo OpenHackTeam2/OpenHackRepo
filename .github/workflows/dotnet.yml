@@ -65,11 +65,11 @@ jobs:
         docker push ${{ env.registery }}/${{ env.app }}:${{ github.sha }} 
   
     - uses: nashmaniac/create-issue-action@v1.1
-        if: ${{ failure() }} # only run when this job is failed.
-        name: Create Issue Action
-        with:
-            title: Build Failed
-            token: ${{secrets.GITHUB_TOKEN}}
-            assignees: ${{github.actor}}
-            labels: Build failed, help needed
-            body: Workflow failed for commit ${{github.sha}}
+      if: ${{ failure() }} # only run when this job is failed.
+      name: Create Issue Action
+      with:
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: Build failed, help needed
+          body: Workflow failed for commit ${{github.sha}}
