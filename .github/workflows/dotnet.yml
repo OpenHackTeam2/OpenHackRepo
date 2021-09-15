@@ -6,10 +6,12 @@ on:
       - '*'
     paths:
       - 'api/poi/**'
+      - '.github/workflows/dotnet.yml'
   pull_request:
     branches: [ master ]
     paths:
       - 'api/poi/**'
+      - '.github/workflows/dotnet.yml'
 
 jobs:
   build:
