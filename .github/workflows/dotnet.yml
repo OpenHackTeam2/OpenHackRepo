@@ -5,12 +5,12 @@ on:
     branches: 
       - '*'
     paths:
-      - 'api/poi/**'
+      - 'apis/poi/**'
       - '.github/workflows/dotnet.yml'
   pull_request:
     branches: [ master ]
     paths:
-      - 'api/poi/**'
+      - 'apis/poi/**'
       - '.github/workflows/dotnet.yml'
 
 jobs:
@@ -24,9 +24,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       #with:
       #  dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies 
+      run: dotnet restore apis/poi/poi.sln
+      
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build apis/poi/poi.sln --no-restore 
     - name: Test
       run: dotnet test --no-build --verbosity normal
