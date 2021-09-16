@@ -2,6 +2,7 @@ name: trips
 
 on:
   push:
+    branches: [ rautttus/TestUserProfile ]
     paths:
       - apis/trips/**
       - .github/workflows/trips.yml
