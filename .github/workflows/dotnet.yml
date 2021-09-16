@@ -50,6 +50,7 @@ jobs:
       registery: openhackw1l12y49acr.azurecr.io
       app: devopsoh/api-poi
       dockerpath: apis/poi/web
+      webappname: openhackw1l12y49poi
     
     steps:
     # checkout the repo
@@ -66,6 +67,12 @@ jobs:
         docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
         docker push ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
   
+    - name: 'Deploy to Azure Web App for Container'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.webappname }} 
+        images: ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
+
     - uses: nashmaniac/create-issue-action@v1.1
       if: ${{ failure() }} # only run when this job is failed.
       name: Create Issue Action
@@ -75,3 +82,4 @@ jobs:
           assignees: ${{github.actor}}
           labels: Build failed, help needed
           body: Workflow failed for commit ${{github.sha}}
+
