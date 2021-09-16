@@ -45,6 +45,7 @@ jobs:
   docker-build-and-deploy:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    needs: build-and-test
     env:
       registery: openhackw1l12y49acr.azurecr.io
       app: devopsoh/api-poi
