@@ -27,7 +27,7 @@ jobs:
         java-version: 11 
         
     - name: Test
-      run: mvm test
+      run: mvn test
         
   #   - name: Build
   #     run: dotnet build apis/poi/web/poi.csproj --no-restore
