@@ -30,15 +30,18 @@ jobs:
     - name: Test
       run: go test ./tests
         
-    - uses: nashmaniac/create-issue-action@v1.1
-      if: ${{ failure() }} # only run when this job is failed.
-      name: Create Issue Action
+    - uses: actions/github-script@0.9.0
+      if: failure()
       with:
-          title: Build Failed trips
-          token: ${{secrets.GITHUB_TOKEN}}
-          assignees: ${{github.actor}}
-          labels: Build failed, help needed
-          body: Workflow failed for commit ${{github.sha}}
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          let body = "Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "Workflow ${{ github.run_number }} Failed! ",
+            body: body
+          });
 
   docker-build-and-deploy:
     if: github.ref == 'refs/heads/master'
@@ -64,12 +67,15 @@ jobs:
         docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
         docker push ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
   
-    - uses: nashmaniac/create-issue-action@v1.1
-      if: ${{ failure() }} # only run when this job is failed.
-      name: Create Issue Action
+    - uses: actions/github-script@0.9.0
+      if: failure()
       with:
-          title: Build Failed trips
-          token: ${{secrets.GITHUB_TOKEN}}
-          assignees: ${{github.actor}}
-          labels: Build failed, help needed
-          body: Workflow failed for commit ${{github.sha}}
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          let body = "Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "Workflow ${{ github.run_number }} Failed! ",
+            body: body
+          });
