@@ -11,7 +11,6 @@ on:
       - apis/trips/**
       - .github/workflows/trips.yml
 
-name: run tests
 jobs:
   lint:
     runs-on: ubuntu-latest
