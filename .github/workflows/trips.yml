@@ -2,7 +2,6 @@ name: trips
 
 on:
   push:
-    branches: [ rautttus/TestUserProfile ]
     paths:
       - apis/trips/**
       - .github/workflows/trips.yml
@@ -45,7 +44,7 @@ jobs:
           });
 
   docker-build-and-deploy:
-    if: github.ref == 'refs/heads/rautttus/TestUserProfile'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: build-and-test
     env:

@@ -2,7 +2,6 @@ name: userprofile-workflow
 
 on:
   push:
-    branches: [ rautttus/TestUserProfile ]
     paths:
       - apis/userprofile/**
       - .github/workflows/userprofile-workflow.yml
@@ -45,7 +44,7 @@ jobs:
           });
 
   docker-build-and-deploy:
-    if: github.ref == 'refs/heads/rautttus/TestUserProfile'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: build-and-test
     env:
