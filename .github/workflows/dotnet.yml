@@ -43,6 +43,7 @@ jobs:
           body: Workflow failed for commit ${{github.sha}}
 
   docker-build-and-deploy:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     env:
       registery: openhackw1l12y49acr.azurecr.io
