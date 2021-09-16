@@ -1,10 +1,11 @@
-name: Node.js CI
+name: userprofile
 
 on:
   push:
+    branches: [ rautttus/TestUserProfile ]
     paths:
       - apis/userprofile/**
-      - .github/userprofile/userprofile-workflow.yml
+      - .github/workflows/userprofile-workflow.yml
   pull_request:
     branches: [ master ]
     paths:
@@ -12,17 +13,67 @@ on:
       - .github/workflows/userprofile-workflow.yml
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
-
+    defaults:
+      run: 
+        shell: bash
+        working-directory: apis/userprofile
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-      - name: npm install, build and test
-        run: |
-          npm install
-          npm init
-          npm run build apis/userprofile/package.json --if-present
-          npm test apis/userprofile/tests/healthcheck/user.js 
+    - uses: actions/checkout@v2
+      
+    - name: Setup NodeJs
+      uses: actions/setup-node@v1
+      run: npm ci
+      run: npm run build --if-present
+      run: npm run test
+        
+    - uses: actions/github-script@0.9.0
+      if: failure()
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          let body = "Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "Workflow ${{ github.run_number }} Failed! ",
+            body: body
+          });
+
+  # docker-build-and-deploy:
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-test
+  #   env:
+  #     registery: openhackw1l12y49acr.azurecr.io
+  #     app: devopsoh/api-trips
+  #     dockerpath: apis/trips
+    
+  #   steps:
+  #   # checkout the repo
+  #   - name: 'Checkout Github Action'
+  #     uses: actions/checkout@master
+            
+  #   - uses: azure/docker-login@v1
+  #     with:
+  #       login-server: ${{ env.registery }}
+  #       username: ${{ secrets.REGISTRY_USERNAME }}
+  #       password: ${{ secrets.REGISTRY_PASSWORD }}
+
+  #   - run: |
+  #       docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
+  #       docker push ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
+  
+  #   - uses: actions/github-script@0.9.0
+  #     if: failure()
+  #     with:
+  #       github-token: ${{secrets.GITHUB_TOKEN}}
+  #       script: |
+  #         let body = "Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+  #         github.issues.create({
+  #           owner: context.repo.owner,
+  #           repo: context.repo.repo,
+  #           title: "Workflow ${{ github.run_number }} Failed! ",
+  #           body: body
+  #         });
