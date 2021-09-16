@@ -20,7 +20,7 @@ SQL_PASSWORD="demo@pass123" \
 SQL_SERVER="openhackw1l12y49sql.database.windows.net" \
 SQL_DBNAME="mydrivingDB" \
 WEB_PORT="8080" \
-WEB_SERVER_BASE_URI="http://0.0.0.0" \
+WEB_SERVER_BASE_URI="https://openhackw1l12y49poi.azurewebsites.net" \
 ASPNETCORE_ENVIRONMENT="Production"
 
 COPY --from=build-env /app/out .
