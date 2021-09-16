@@ -15,9 +15,9 @@ COPY ./appsettings.json /app/out/
 FROM mcr.microsoft.com/dotnet/aspnet:2.1
 WORKDIR /app
 
-ENV SQL_USER="YourUserName" \
-SQL_PASSWORD="changeme" \
-SQL_SERVER="changeme.database.windows.net" \
+ENV SQL_USER="demousersa" \
+SQL_PASSWORD="demo@pass123" \
+SQL_SERVER="openhackw1l12y49sql.database.windows.net" \
 SQL_DBNAME="mydrivingDB" \
 WEB_PORT="8080" \
 WEB_SERVER_BASE_URI="http://0.0.0.0" \
