@@ -11,7 +11,7 @@ namespace UnitTests
         {
             //Comment
             Assert.Equal("POI Service Healthcheck", new Healthcheck().Message);
-            Assert.Equal("Healthy", new Healthcheck().Status);
+            Assert.Equal("Still Healthy", new Healthcheck().Status);
 
         }
     }
