@@ -51,6 +51,7 @@ jobs:
       registery: openhackw1l12y49acr.azurecr.io
       app: devopsoh/api-userprofile
       dockerpath: apis/userprofile
+      webappname: openhackw1l12y49userprofile
     
     steps:
     # checkout the repo
@@ -67,6 +68,17 @@ jobs:
         docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
         docker push ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
   
+    - name: Azure authentication
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Deploy to Azure Web App for Container'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.webappname }} 
+        images: ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}
+
     - uses: actions/github-script@0.9.0
       if: failure()
       with:
