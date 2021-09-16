@@ -61,8 +61,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - run: |
-        docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.sha }}
-        docker push ${{ env.registery }}/${{ env.app }}:${{ github.sha }} 
+        docker build ${{ env.dockerpath }} -t ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}:${{ github.sha }}
+        docker push ${{ env.registery }}/${{ env.app }}:${{ github.run_number }}:${{ github.sha }} 
   
     - uses: nashmaniac/create-issue-action@v1.1
       if: ${{ failure() }} # only run when this job is failed.
